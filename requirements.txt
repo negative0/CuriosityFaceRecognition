@@ -1,0 +1,11 @@
+scipy
+keras
+numpy
+h5py
+opencv-python
+pillow
+tensorflow
+
+flask
+flask-jsonpify
+flask-restful
