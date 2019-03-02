@@ -10,8 +10,8 @@ from face_detection.image_tensor import ImageTensor
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # print("BASE_DIR", BASE_DIR)
 
-model_file = os.path.join(BASE_DIR, "../../tf_files/faces_retrained.pb")
-label_file = os.path.join(BASE_DIR, "../../tf_files/labels_retrained.txt")
+model_file = os.path.join(BASE_DIR, "../tf_files/faces_retrained.pb")
+label_file = os.path.join(BASE_DIR, "../tf_files/labels_retrained.txt")
 input_height = 224
 input_width = 224
 input_mean = 128
@@ -42,7 +42,7 @@ def load_graph(model_file):
 
 
 def perform_detection():
-    face_cascade = cv2.CascadeClassifier('../cascades/haarcascade_frontalface_alt.xml')
+    face_cascade = cv2.CascadeClassifier( os.path.join(BASE_DIR, '../cascades/haarcascade_frontalface_alt.xml'))
 
     graph = load_graph(model_file)
     labels = load_labels(label_file)
@@ -61,7 +61,8 @@ def perform_detection():
             if not ret:
                 break
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            cv2.imshow("gray", gray)
+            # cv2.imshow("gray", gray)
+
             faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5)
             for (x, y, w, h) in faces:
                 # print(x,y,w,h)
@@ -82,8 +83,8 @@ def perform_detection():
                         print(labels[i], results[i])
                         cur_res = str(labels[i])
 
-                img_item = "7.png"
-                cv2.imwrite(img_item, roi_color)
+                # img_item = "7.png"
+                # cv2.imwrite(img_item, roi_color)
 
                 color = (255, 0, 0)  # BGR 0-255
                 stroke = 2
@@ -104,7 +105,7 @@ def perform_detection():
 
 class FaceClassifier():
     def __init__(self):
-        self.face_cascade = cv2.CascadeClassifier('../cascades/haarcascade_frontalface_alt.xml')
+        self.face_cascade = cv2.CascadeClassifier('cascades/haarcascade_frontalface_alt.xml')
 
         self.graph = load_graph(model_file)
         self.labels = load_labels(label_file)
@@ -118,11 +119,9 @@ class FaceClassifier():
             input_operation = self.graph.get_operation_by_name(self.input_name)
             output_operation = self.graph.get_operation_by_name(self.output_name)
 
-            face_cascade = cv2.CascadeClassifier('../cascades/haarcascade_frontalface_alt.xml')
-
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             # cv2.imshow("gray", gray)
-            faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5)
+            faces = self.face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5)
             for (x, y, w, h) in faces:
                 # print(x,y,w,h)
                 # roi_gray = gray[y:y + h, x:x + w]  # (ycord_start, ycord_end)
