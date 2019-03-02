@@ -1,6 +1,7 @@
 ## RESTful API for celebrity face recognition
 
 ### Dependencies:
+python3
 numpy  
 opencv-python  
 pillow  
@@ -33,3 +34,7 @@ Output Format:
 ### Trained to recognize following faces:
 1. Shahrukh Khan
 1. Priyanka chopra
+
+## To run 
+
+Run the run.py file with python3
