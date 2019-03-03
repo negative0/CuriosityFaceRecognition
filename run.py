@@ -25,6 +25,12 @@ def rootTask():
                             <input name="file" type="file">
                             <button type="submit">Submit</button>
                         </form>
+                        <p>Multiple faces in one image also supported</p>
+                        <p>Currently working for following faces:</p>
+                        <ul>
+                            <li>Shahrukh Khan</li>
+                            <li>Priyanka Chopra</li>
+                        </ul>
                     </body>
                 </html>
             '''

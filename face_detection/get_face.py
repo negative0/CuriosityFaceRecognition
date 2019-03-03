@@ -42,7 +42,7 @@ def load_graph(model_file):
 
 
 def perform_detection():
-    face_cascade = cv2.CascadeClassifier( os.path.join(BASE_DIR, '../cascades/haarcascade_frontalface_alt.xml'))
+    face_cascade = cv2.CascadeClassifier(os.path.join(BASE_DIR, '../cascades/haarcascade_frontalface_alt2.xml'))
 
     graph = load_graph(model_file)
     labels = load_labels(label_file)
@@ -105,7 +105,7 @@ def perform_detection():
 
 class FaceClassifier():
     def __init__(self):
-        self.face_cascade = cv2.CascadeClassifier('cascades/haarcascade_frontalface_alt.xml')
+        self.face_cascade = cv2.CascadeClassifier('cascades/haarcascade_frontalface_alt2.xml')
 
         self.graph = load_graph(model_file)
         self.labels = load_labels(label_file)
@@ -113,7 +113,7 @@ class FaceClassifier():
         self.output_name = "import/" + output_layer
 
     def classify_image(self, frame):
-        cur_results = {}
+        cur_results = []
         with tf.Session(graph=self.graph) as sess:
 
             input_operation = self.graph.get_operation_by_name(self.input_name)
@@ -136,9 +136,11 @@ class FaceClassifier():
 
                 top_k = results.argsort()[-5:][::-1]
                 # cur_res = "None"
-
+                face_res = {}
                 for i in top_k:
-                    cur_results[self.labels[i]] = float(results[i])
+                    face_res[self.labels[i]] = float(results[i])
+
+                cur_results.append(face_res)
 
         return cur_results
 
