@@ -1,18 +1,15 @@
-from flask import Flask, request, jsonify
-from flask_restful import Api
 import os
+
 import cv2
+from flask import request, jsonify
 
 # db_connect = create_engine('sqlite:///chinook.db')
-from face_detection.get_face import FaceClassifier
+from app import app
+from app.face_detection.get_face import FaceClassifier
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-app = Flask(__name__)
-api = Api(app)
-
 classifier = FaceClassifier()
-
 
 @app.route("/", methods=['GET'])
 def rootTask():
@@ -49,5 +46,3 @@ def doTask():
     return jsonify({"Ok": "File Uploaded", "result": results})
 
 
-if __name__ == '__main__':
-    app.run(port='8000', debug=True)
